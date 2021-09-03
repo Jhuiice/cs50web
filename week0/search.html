@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" type="text/css" rel="stylesheet">
+    <title>Search Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
+</head>
+<body>
+    <div class="fake-buttons">
+        <ul class="button-container">
+            <li class="menu-button button"><a href="advancedsearch.html">Advanced Search</li>
+            <li class="menu-button button"><a href="images.html">Image Search</a></li>
+        </ul>
+    </div>
+    <div id="search">
+        <h1>Google Search</h1>
+        <!-- the input type being submitted is extended onto the end of the form action-->
+        <!-- When I type hello into the text box and submit i will be redirected to https://www.google.com/search?q=hello -->
+        <!-- the variable name is q and the value is the text inside the text box-->
+        <form action="https://www.google.com/search?" method="get">
+            <div class="text-div">
+                <input class="search-box" type="text" class="text-button" name='q'>
+            </div>
+            <div class="submit-div">
+                <input class="submit-button button" type="submit" value="Google Search" name="submit">
+                <input class="submit-button button" type="submit" value="I'm Feeling Lucky" name="submit">
+            </div>
+        </form>
+    </div>
+
+    
+</body>
+</html>

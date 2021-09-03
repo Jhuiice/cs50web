@@ -1,0 +1,146 @@
+body {
+    font-size: 14px;
+    font-family: arial,sans-serif;
+    color: #222;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button {
+    text-align: center;
+    border-radius: 5px;
+    padding-right: 10px;
+}
+
+a {
+    color: rgba(0,0,0,0.87);
+    text-decoration: none;
+}
+
+
+a:link,
+a:visited {
+    color: rgba(0,0,0,0.87);
+}
+
+a:active,
+a:hover {
+    color: rgba(0,0,0,0.87);
+    text-decoration: underline;
+}
+
+li {
+    padding: 15px;
+    display: inline;
+}
+
+.button-container li:last-child {
+    margin-right: 30px;
+    color: blue;
+}
+
+h1{
+    font-size: 50px;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+}
+
+#search {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5%;
+}
+
+.submit-div {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.submit-button {
+    background-color: #f8f9fa;
+    align-items: center;
+    margin: 10px;
+    border: none;
+    padding: 0 10px;
+    height: 36px;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.submit-button:hover,
+.submit-button:active {
+    border: 1px rgba(0, 0, 0, 0.2) solid;
+}
+.search-box {
+    padding: 5px 8px 0 16px;
+    padding-left: 14px;
+    width: 25%;
+    height: 2em;
+    border-radius: 50px;
+    border: solid gray;
+    border-width: 1px;
+}
+
+.text-div {
+    display: flex;
+    justify-content: center;
+    width: auto;
+    padding: 0 0 15px 0;
+}
+
+form {
+    width: 100%;
+}
+
+.menu-button {
+    font-family: Roboto, RobotoDraft,Arial,sans-serif;
+    font-style: normal;
+    font-variant-caps: normal;
+    font-weight: normal;
+    font-stretch: normal;
+    font-size: 13px;
+    line-height: 27px;
+    font-family: Roboto, RobotoDraft, Arial, sans-serif;
+    font-size-adjust: none;
+    font-kerning: auto;
+    font-optical-sizing: auto;
+    font-variant-alternates: normal;
+    font-variant-east-asian: normal;
+    font-variant-ligatures: normal;
+    font-variant-numeric: normal;
+    font-variant-position: normal;
+    font-language-override: normal;
+    font-feature-settings: normal;
+    font-variation-settings: normal;
+    background-color: none !important;
+}
+
+.advanced-search {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: 2em;
+    padding: 10px;
+}
+
+p {
+    padding-right: 20px;
+    align-self: center;
+}
+
