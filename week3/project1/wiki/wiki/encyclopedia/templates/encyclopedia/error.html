@@ -1,0 +1,11 @@
+{% extends 'encyclopedia/layout.html' %}
+
+{% block body %}
+    {% if title %} 
+        <h2>The title <em>{{ title }}</em> does not exist.</h2>
+        <h2>Please try again</h2>\
+    {% elif error %}
+        <h2>The form is not valid.</h2>
+        <a href="{% url 'encyclopedia:create' %}">Try again</a>
+    {% endif %}
+{% endblock %}

@@ -1,3 +1,8 @@
+# Why use a set? Are they faster than using a search and sorting algorithm? 
+# I think it depends on the context of what you are sorting or searching.
+# REASON:
+# Sets self sort
+
 s = set()
 
 s.add(1)
