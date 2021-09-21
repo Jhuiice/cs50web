@@ -1,0 +1,9 @@
+TODO
+Listings:
+    Categories
+    Add item to watch list if logged in
+    Allow user who created the listing to close it to the highest bidder
+        display highest bidder on the listing page 
+    Add Comments to the listing page
+Watchlist:
+Improve Django Admin Interface:

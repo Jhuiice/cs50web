@@ -1,0 +1,84 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<div class="listing-container">
+    <div class="listing-image">
+        {% load static %}
+        <img src="{% static image %}" alt="Image of listing">
+    </div>
+    <div class="listing-content">
+        <h3>{{ listing.name }}</h3>
+        <form action="{% url 'listing' listing.name listing.id %}" method="POST">
+            <!-- Add to watchlist -->
+            {% csrf_token %}
+                <input type="hidden" name="watchlist" value="watchlist">
+            {% if user.is_authenticated and listing.active %}
+                <input type="Submit" value="Watchlist">
+            {% else %}
+                <input type="Submit" value="Watchlist" disabled>
+            {% endif %}
+        </form>
+        <ul>
+            <li>Description: {{ listing.description }}</li>
+            <li>Listing Price: {{ listing.listing_price }}</li>
+            <li>Current Bid: {{ listing.current_bid }}</li>
+            <li>Username: {{ listing.user_listing.username }}</li>
+            <li>Created: {{ listing.created }}</li>
+            <li>Active: {{ listing.active }}</li>
+            {% if listing.buyer_username %}
+                <li>Auction Winner: {{ listing.buyer_username }}</li>
+            {% endif %}
+        <ul>
+    </div>
+</div>
+<!-- User Close Form -->
+{% if listing.user_listing.username == request.user.username %}
+    <form action="{% url 'listing' listing.name listing.id %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="close" value="close">
+        {% if listing.active %}
+        <input type="submit" value="close">
+        {% else %}
+        <input type="submit" value="close" disabled>
+        {% endif %}
+    </form>
+{% endif %}
+
+{% if not listing.active %}
+<h5>This listing is no longer active</h5>
+{% endif %}
+
+<!-- Bid form -->
+<form action="{% url 'listing' listing.name listing.id %}" method="POST">
+    {% csrf_token %}
+        <input type="float" placeholder="Bid" name="bid">
+    {% if user.is_authenticated and listing.active %}
+        <input type="Submit" value="Bid">
+    {% else %}
+        <p><strong>Must be logged in to submit a bid</strong></p>
+    {% endif %}
+
+    {% if error and listing.active %}
+        {{ error }}
+    {% endif %}
+</form>
+<div class="comments">
+    {% for comment in comments %}
+        <h5>{{ comment.user_comment }} : {{ comment.created }}</h5>
+        <p>{{ comment.content }}</p>
+    {% endfor %}
+</div>
+
+<!-- Comment form -->
+<form action="{% url 'listing' listing.name listing.id %}"method="POST">
+    {% csrf_token %}
+    <input type="text" name="comment">
+    {% if user.is_authenticated and listing.active %}
+    <input type="submit" value="comment">
+    {% else %}
+    <input type="submit" value="comment" disabled>
+    {% endif %}
+</form>
+
+{% endblock %}

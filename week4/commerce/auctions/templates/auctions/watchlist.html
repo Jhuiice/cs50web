@@ -1,0 +1,27 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2>Watchlist</h2>
+{% for listing in watchlist %}
+<div class="listing-container">
+    <div class="listing-image">
+        {% load static %}
+        {% for key, value in images.items %}
+            {% if key == listing.listing.id %}
+                <img src="{% static value %}" alt="Image of listing">
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="listing-content">
+        <!-- Note to self urls dont need curly brackets when passing in variables -->
+        <h3><a href="{% url 'listing' listing.listing.name listing.listing.id %}">{{ listing.listing.name }}</a></h3>
+        <ul>
+            <li>Description: {{ listing.listing.description }}</li>
+            <li>Listing Price: {{ listing.listing.listing_price }}</li>
+            <li>Current Bid: {{ listing.listing.current_bid }}</li>
+            <li>Created: {{ listing.listing.created }}</li>
+        <ul>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
