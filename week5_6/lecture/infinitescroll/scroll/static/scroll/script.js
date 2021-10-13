@@ -2,41 +2,61 @@
 let counter = 1;
 
 // Load posts 20 at a time
-const quantity = 15;
+const quantity = 20;
 
-// When Dom loads, render the first 20 posts
-document.addEventListener('DOMContentLoaded', load)
+// When DOM loads, render the first 20 posts
+document.addEventListener('DOMContentLoaded', load);
 
 // If scrolled to bottom, load the next 20 posts
 window.onscroll = () => {
-    if (window.scrollY + window.innerHeight > document.body.offsetHeight){
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         load();
     }
 };
 
+// Load next set of posts
+function load() {
 
-// load next set of posts
-function load(){
-    // set start and end post numbers, and update counter
+    // Set start and end post numbers, and update counter
     const start = counter;
     const end = start + quantity - 1;
     counter = end + 1;
 
-    // get new posts and add posts
+    // Get new posts and add posts
     fetch(`posts?start=${start}&end=${end}`)
     .then(response => response.json())
     .then(data => {
         data.posts.forEach(add_post);
     })
-}
+};
 
-// Add a new post with given contents on DOM
+// Add a new post with given contents to DOM
 function add_post(contents) {
-    // create new post
+
+    // Create new post
     const post = document.createElement('div');
     post.className = 'post';
-    post.innerHTML = contents;
+    post.innerHTML = `${contents} <button class="hide">Hide</button>`;
 
-    // Add posts to DOM
+    // Add post to DOM
     document.querySelector('#posts').append(post);
 };
+
+// If Hide button is clicked delete the post
+document.addEventListener('click', event => {
+    // find what was clicked
+    const element = event.target;
+
+    // Check if the class was 'hide'
+    // watch lecture to see why this is not running
+    if (element.className === 'hide'){
+        console.log(element)
+        console.log(element.parentElement)
+        console.log(element.parentElement.style)
+        console.log(element.parentElement.style.animationPlayState)
+        element.parentElement.style.animationPlayState = 'running';
+        console.log(element.parentElement.style.animationPlayState)
+        element.parentElement.remove();
+    }
+
+});
