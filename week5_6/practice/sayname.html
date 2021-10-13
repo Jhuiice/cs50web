@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Say My Name</title>
+    <script>
+
+        function sayName() {
+            let name = document.querySelector('#name').value;
+            let heading = document.querySelector('h1');
+            heading.innerHTML = name;
+            alert(`Hello, ${name}!`)
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+            document.querySelector('form').onsubmit = sayName
+        })
+
+    </script>
+</head>
+<body>
+    <h1></h1>
+    <form>
+        <input type="text" id="name">
+        <input type="submit" id="submit">
+    </form>
+    
+</body>
+</html>

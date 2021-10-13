@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalStorage</title>
+    <script>
+        // localStorage.getItem(key);
+        // localStorage.setItem(key, value);
+
+        // Check if there is already a value in local storage
+        if (!localStorage.getItem('counter')) {
+            // if not, set the counter to 0 in local storage
+            localStorage.setItem('counter', 0);
+        }
+
+        function count() {
+            // Retrieve Counter value from local storage
+            let counter = localStorage.getItem('counter');
+
+            // update counter
+            counter++;
+            document.querySelector('h1').innerHTML = counter;
+
+            // store counter in localStorage
+            localStorage.setItem('counter', counter);
+
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set heading to the current value inside local storage
+            document.querySelector('h1').innerHTML = localStorage.getItem('counter')
+            document.querySelector('button').onclick = count;
+        });
+    </script>
+</head>
+<body>
+    <h1>0</h1>
+    <button>Count</button>
+</body>
+</html>
