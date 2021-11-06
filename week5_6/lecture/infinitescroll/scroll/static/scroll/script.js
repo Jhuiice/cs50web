@@ -50,13 +50,12 @@ document.addEventListener('click', event => {
     // Check if the class was 'hide'
     // watch lecture to see why this is not running
     if (element.className === 'hide'){
-        console.log(element)
-        console.log(element.parentElement)
-        console.log(element.parentElement.style)
-        console.log(element.parentElement.style.animationPlayState)
         element.parentElement.style.animationPlayState = 'running';
-        console.log(element.parentElement.style.animationPlayState)
-        element.parentElement.remove();
+        element.parentElement.addEventListener('animationend', () => {
+            element.parentElement.remove()
+        });
+        //
+        //
     }
 
 });

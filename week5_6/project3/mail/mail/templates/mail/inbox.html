@@ -10,13 +10,18 @@
     <button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
     <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
     <hr>
+    <div id="email-view">
+        <button id="email-unread-btn" class="btn-secondary">Mark as unread</button>
+    </div>
 
     <div id="emails-view">
+        <!-- Sending inbox, sent, and archived to this container -->
     </div>
 
     <div id="compose-view">
         <h3>New Email</h3>
         <form id="compose-form">
+
             <div class="form-group">
                 From: <input disabled class="form-control" value="{{ request.user.email }}">
             </div>
@@ -27,7 +32,7 @@
                 <input class="form-control" id="compose-subject" placeholder="Subject">
             </div>
             <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
-            <input type="submit" class="btn btn-primary"/>
+            <input type="submit" class="btn btn-primary btn-compose"/>
         </form>
     </div>
 {% endblock %}
