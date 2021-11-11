@@ -12,7 +12,16 @@ from .models import User, Profile, Posts
 
 
 def index(request):
-    return render(request, "network/index.html")
+
+    # load all the posts here and send it to the template
+    all_posts = Posts.objects.all()
+    # what we need
+    # photo and username
+
+    return render(request, "network/index.html",
+                  {
+                      "posts": all_posts
+                  })
 
 
 @ensure_csrf_cookie
@@ -32,20 +41,6 @@ def new_post(request):
     post.save()
     # json will render the single page resoonse
     return render(request, "network/index.html")
-
-# TODO
-
-
-def all_posts(request):
-    # load all the posts here and send it to the template
-    all_posts = Posts.objects.all()
-    # what we need
-    # photo and username
-
-    return render(request, "network/allposts.html",
-                  {
-                      "posts": all_posts
-                  })
 
 
 def profile(request, username):
