@@ -1,5 +1,30 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+
+    <div id="profile-view">
+        This is the profile
+    </div>
+
+    <div id="following-view">
+
+    </div>
+
+    <div id="post-form-container">
+        <form id="post-form" action="{% url 'new_post' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group blue-border-focus">
+                <h2><label for="exampleFormControlTextarea4">New Post</label></h2>
+                <textarea maxlength="256" id="exampleFormControlTextarea4" class="form-control post-content" rows="3" name="content" placeholder="What's happening?">
+            </div>
+                </textarea>
+                <input class="btn btn-primary" value="Post" type="submit" id="post-submit">
+
+        </form>
+    </div>
+
+    <div id="post-view">
+
+    </div>
+
 {% endblock %}

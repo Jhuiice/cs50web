@@ -1,0 +1,74 @@
+{% extends 'network/layout.html' %}
+
+{% block body%}
+
+<div class="profile-container">
+    <div class="profile-header-container">
+        <!-- Get image to top left -->
+        <div class="background-photo-container mdm-container">
+            <figure><image class="background-photo" src={{profile.background_photo}}></image></figure>
+        </div>
+        {% if user.username != profile.name %}
+        <div class="follow-button-container">
+            <button class="btn btn-primary">Follow</button>
+        </div>
+        {% else %}
+        <div class="follow-button-container" style="display:none;">
+            <button class="btn btn-primary">Follow</button>
+        </div>
+        {% endif %}
+        <div class="profile-photo-container sml-container">
+            <figure><image class="profile-photo" src={{profile.photo}}></image></figure>
+        </div>
+    </>
+    <div class="profile-info sml-container">
+        <div class="profile-content-container">
+            <div class="profile-content">
+                <span>{{profile.name}}</span>
+                <span>@{{user.username}}</span>
+                <span class="bio"> {{profile.bio}}</span>
+            </div>
+            <div class="follow-content">
+                <div class="following">
+                    <!-- TODO Add following and followers count -->
+                    <span class="follow-span"><a class="follow-button" href="#">Following</a></span>
+                </div>
+                <div class="followers">
+                    <span class="follow-span"><a class="follow-button" href="#">Followers</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POSTS CONTENT -->
+    <div id="posts-container">
+        {% if posts %}
+            {% for post in posts %}
+                <div class="post-container">
+                    <div class="username-container">
+                        <span class="post-username">
+                            {{profile.name}}
+                        </span>
+                    </div>
+                    <div class="post-content">
+                        <span>{{post.content}}</span>
+                    </div>
+                    <div class="timestamp">
+                        <span>{{post.timestamp}}</span>
+                    </div>
+                    <div class="likes">
+                        <button class="btn-small btn btn-secondary">
+                            {{post.likes}} Likes</button>
+                        <button class="btn btn-secondary">{{post.dislikes}} Dislike</button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <span class="empty">There are no posts yet</span>
+        {% endif %}
+
+    </div>
+
+
+</div>
+{% endblock %}

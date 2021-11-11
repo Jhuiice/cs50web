@@ -1,0 +1,99 @@
+.body {
+  width: 80%;
+  margin: 0 auto;
+}
+
+#post-form-container {
+  margin: 6px;
+  padding: 10px 20px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+}
+
+#post-submit {
+  padding-top: 5px;
+}
+
+.post-content {
+  margin-bottom: 4px;
+}
+
+/* --------------------------------- */
+/* --------- PROFILE VIEW ---------- */
+/* --------------------------------- */
+
+#profile-container {
+  padding: 0 80px;
+}
+
+.background-photo-container {
+  grid-area: bk-photo;
+}
+
+.follow-button-container {
+  grid-area: follow;
+}
+
+.profile-photo-container {
+  grid-area: photo;
+}
+
+.profile-header-conaainer {
+  display: grid;
+  grid-template-areas:
+    "bk-photo bk-photo bk-photo"
+    "bk-photo bk-photo bk-photo"
+    "photo . follow";
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-content span:first-child {
+  padding: 3px 10px;
+}
+
+.follow-content {
+  display: flex;
+  padding-top: 15px;
+}
+
+.follow-span {
+  padding: 5px;
+}
+
+.follow-button {
+  text-decoration: none;
+  color: rgb(0, 0, 0, 0.7);
+}
+
+.follow-button:hover {
+  text-decoration: none;
+  color: rgb(0, 0, 0, 0.7);
+}
+.follow-span:hover {
+  border-bottom: 1px solid black;
+}
+
+#posts-container {
+  margin-top: 20px;
+}
+
+.post-container {
+  margin: 6px;
+  padding: 10px 20px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+}
+
+.username-container {
+  font-weight: bold;
+  font-size: 20px;
+  padding: 10px 0px;
+}
+
+.timestamp {
+  padding: 10px 0px;
+}
