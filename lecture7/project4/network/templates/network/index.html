@@ -16,16 +16,18 @@
     <div id="posts-container">
         {% if posts %}
             {% for post in posts %}
-                <div class="post-container" data-post_id={{post.post_id}} data-post_creator={{post.user.username}}>
+                <div class="post-container">
                     <div class="username-container">
                         <span class="post-username">
                             <a href="{% url 'profile' post.user.username %}">{{post.user.username}}</a>
                         </span>
                     </div>
+                    {% if post.user == user %}
                     <div class="edit-content" >
-                        <a href="#" class="edit-link" data-post_id={{post.post_id}} data-post_creator={{post.user.username}}>Edit</a>
+                        <a href="#" class="edit-link" data-post_id={{post.post_id}} data-post_creator={{post.user.username}} onclick="edit_post(event)">Edit</a>
                     </div>
-                    <div class="post-content">
+                    {% endif %}
+                    <div class="post-content" data-post_id={{post.post_id}}>
                         <span>{{post.content}}</span>
                     </div>
                     <div class="timestamp">
@@ -34,7 +36,6 @@
                     <div class="likes">
                         <button class="btn-small btn btn-secondary">
                             {{post.likes}} Likes</button>
-                        <button class="btn btn-secondary">{{post.dislikes}} Dislike</button>
                     </div>
                 </div>
             {% endfor %}

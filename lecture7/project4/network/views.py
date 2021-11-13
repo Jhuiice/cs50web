@@ -24,9 +24,13 @@ def index(request):
                   })
 
 
+@ensure_csrf_cookie
+@login_required
 def edit_post(request, id):
     try:
         post = Posts.objects.get(post_id=id)
+        if request.user != post.user:
+            return JsonResponse({"error": "Not Post Creator"})
     except:
         return JsonResponse({"error": "Post not found"}, status=404)
 
@@ -35,7 +39,7 @@ def edit_post(request, id):
 
     elif request.method == "PUT":
         data = json.loads(request.body)
-        post.content = data.content
+        post.content = data.get('content')
         post.save()
         return HttpResponse(status=204)
     else:
