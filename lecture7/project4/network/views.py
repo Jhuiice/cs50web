@@ -1,3 +1,4 @@
+from typing import OrderedDict
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -7,26 +8,48 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 
 import json
+import datetime
 
 from .models import User, Profile, Posts
+
+
+def order_posts(posts):
+    ordered_posts = []
+    for post in posts:
+        ordered_posts.append(post)
+    length_ = len(ordered_posts)
+    for i in range(length_):
+        for j in range(length_-i-1):
+            if (ordered_posts[j].timestamp < ordered_posts[j+1].timestamp):
+                temp = ordered_posts[j]
+                ordered_posts[j] = ordered_posts[j+1]
+                ordered_posts[j+1] = temp
+
+    return ordered_posts
 
 
 def index(request):
 
     # load all the posts here and send it to the template
     all_posts = Posts.objects.all()
+    ordered_posts = order_posts(all_posts)
     # what we need
     # photo and username
+    # TODO create an ordering algorithm to order posts newests to oldests
 
     return render(request, "network/index.html",
                   {
-                      "posts": all_posts
+                      "posts": ordered_posts
                   })
 
 
+@ensure_csrf_cookie
+@login_required
 def edit_post(request, id):
     try:
         post = Posts.objects.get(post_id=id)
+        if request.user != post.user:
+            return JsonResponse({"error": "Not Post Creator"})
     except:
         return JsonResponse({"error": "Post not found"}, status=404)
 
@@ -35,7 +58,8 @@ def edit_post(request, id):
 
     elif request.method == "PUT":
         data = json.loads(request.body)
-        post.content = data.content
+        post.content = data.get('content')
+        post.timestamp = datetime.datetime.now()
         post.save()
         return HttpResponse(status=204)
     else:
@@ -72,11 +96,12 @@ def profile(request, username):
     # new accounts will have no posts
     try:
         posts = Posts.objects.filter(user=user)
+        ordered_posts = order_posts(posts)
     except:
         posts = None
     return render(request, "network/profile.html", {
         "profile": profile,
-        "posts": posts,
+        "posts": ordered_posts,
     })
 
 
