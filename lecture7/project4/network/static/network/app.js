@@ -1,10 +1,15 @@
+//? How do i get the js to reload on every page?
 document.addEventListener("DOMContentLoaded", (event) => {
     document.querySelector('#profile-view').style.display = "none";
     document.querySelector('#post-view').style.display = "block";
     document.querySelector('#following-view').style.display = "none";
     document.querySelector('#post-form-container').style.display = "none";
+    document.querySelector('.form-post-content').value = "";
+    document.querySelectorAll('.edit-link').forEach(edit => {
+        edit.addEventListener('click', edit_post)
+    })
 
-    document.querySelector('#post-submit').addEventListener('click', submit_post)
+    // document.querySelector('#post-submit').addEventListener('click', submit_post)
     // document.querySelector('.profile-link').addEventListener('click',
     // load_profile)
 })
@@ -12,13 +17,48 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // function load_profile() {
 //     document.querySelector('#profile-view').style.display = "block";
 // }
+// all you needto do is add a text area that is edible and a save button
+// TODO figure out how to load the event listeners to the page on reload
+function edit_post(event) {
+    event.preventDefault();
+    let post_id = event.target.dataset.post_id
+    let post_user = event.target.dataset.post_creator
+    console.log(post_id)
+    console.log(post_user)
+    let post_container = document.querySelector(`.post-container [data-post_id="${post_id}"`)
+    return event
+    // get the post youre going to edit
+    // let parent = element.parentNode
+    // let content = document.querySelector('.post-content span');
+    // console.log("Success");
+    // function show_edit(edit) {
+    //     if (edit){
+    //         document.querySelector('.edit-view').style.display = "block"
+    //     }
+    //     else {
+    //         document.querySelector('.edit-view').style.display = "none"
+    //     }
+    // }
+    // fetch('/post/' + id, {
+    //     method:"PUT",
+    //     body: {
+    //         content: document.querySelector('.edit-content')
+    //     }
+    // })
+    // .then(response => response.json())
+    // .then(post => {
+    //     console.log(post)
+    // })
+    // fill out the data that has already been there
+    // allow edit
+    // resubmit edit as a put request
+
+}
 
 function load_post() {
     let post = document.querySelector('#post-form-container')
     post.value = "";
     post.style.display = "block";
-
-
 }
 function hide_post() {
     let post = document.querySelector('#post-form-container')
@@ -40,7 +80,7 @@ function submit_post(event) {
             content: content
         })
     })
-    document.querySelector('.post-content').value = ""
+    .then(document.querySelector('.post-content').value = "")
     // .then(load_network())
     // call a function to hide the post and refresh the posts without reloading the page
     // .then()

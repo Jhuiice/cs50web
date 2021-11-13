@@ -24,23 +24,46 @@ def index(request):
                   })
 
 
+def edit_post(request, id):
+    try:
+        post = Posts.objects.get(post_id=id)
+    except:
+        return JsonResponse({"error": "Post not found"}, status=404)
+
+    if request.method == "GET":
+        return JsonResponse(post.serialize())
+
+    elif request.method == "PUT":
+        data = json.loads(request.body)
+        post.content = data.content
+        post.save()
+        return HttpResponse(status=204)
+    else:
+        return JsonResponse({
+            "error": "GET or PUT response Required"
+        })
+
+
 @ensure_csrf_cookie
 @login_required
 def new_post(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required"}, status="400")
-    # content = request.POST.get("content")
-    data = json.loads(request.body)
-    content = data['content']
-    # # render in data from json fetch request
+    content = request.POST.get("content")
+    # data = json.loads(request.body)
+    # content = data['content']
+    # # # render in data from json fetch request
     user = request.user
-    print(content)
 
-    # create post in data base to be fetched
+    # # create post in data base to be fetched
     post = Posts.objects.create(content=content, user=user)
     post.save()
+    posts = Posts.objects.all()
+    # TODO order in reverse chronological order (newest first)
     # json will render the single page resoonse
-    return render(request, "network/index.html")
+    return render(request, "network/index.html", {
+        "posts": posts
+    })
 
 
 def profile(request, username):

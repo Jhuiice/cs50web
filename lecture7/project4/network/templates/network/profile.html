@@ -44,7 +44,7 @@
     <div id="posts-container">
         {% if posts %}
             {% for post in posts %}
-                <div class="post-container">
+                <div class="post-container" data-post_id={{post.post_id}} data-post_creator={{post.user.username}}>
                     <div class="username-container">
                         <span class="post-username">
                             {{profile.name}}
