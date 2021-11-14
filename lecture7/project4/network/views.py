@@ -87,8 +87,9 @@ def new_post(request):
     post = Posts.objects.create(content=content, user=user)
     post.save()
     posts = Posts.objects.all()
+    ordered_posts = order_posts(posts)
     return render(request, "network/index.html", {
-        "posts": posts
+        "posts": ordered_posts
     })
 
 
