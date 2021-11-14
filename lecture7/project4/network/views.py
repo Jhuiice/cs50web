@@ -104,6 +104,10 @@ def like_post(request, id):
     except:
         return JsonResponse({"error": "Post Not Found"})
 
+    # * EDIT: Put note here Alex Nov 14th
+    #! The use of likes is uneeded you can pull the length of the liked
+    #! many to many field and calculate the total number that way
+    #! in hindsite that means you can never get the number bellow zero
     try:
         liked = LikedPosts.objects.get(user=request.user, post=post)
         liked.delete()
@@ -119,6 +123,36 @@ def like_post(request, id):
         post.liked.add(request.user)
         post.save()
         return HttpResponse(status=202)
+
+
+@ensure_csrf_cookie
+@login_required
+def follow(request, username):
+
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required"})
+    try:
+        user1 = request.user
+        # this is who is being followed
+        user2 = User.objects.get(username=username)
+    except:
+        return JsonResponse({"error": "User not found"})
+
+    # profile1 that is clicking the follow button on profile2
+    profile1 = Profile.objects.get(user=user1)
+    # profile2 that is being followed by profile1
+    profile2 = Profile.objects.get(user=user2)
+    if user2 not in profile1.following.all():
+        # adds to followers list
+        profile1.following.add(user2)
+        profile2.followers.add(user1)
+    else:
+        # removes followers list
+        profile1.following.remove(user2)
+        profile2.followers.remove(user1)
+
+    profile1.save()
+    profile2.save()
 
 
 def profile(request, username):

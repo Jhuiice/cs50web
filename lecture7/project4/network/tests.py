@@ -1,5 +1,6 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from .models import User, Profile, Posts
+from .views import follow
 from datetime import datetime
 
 
@@ -41,3 +42,28 @@ class ModelsTest(TestCase):
         profile.save()
         self.assertEqual(profile.user.username, user.username)
         self.assertEqual(profile.name, user.username)
+
+    def test_profile_following(self):
+        """USER1 is attemptimg to follow USER2"""
+        user1 = User.objects.create_user(
+            username="Jhuiice", password="Richman_24", email="foo@example.com")
+        user2 = User.objects.create_user(
+            username="juice", password="Richman_24", email="bar@example.com")
+        profile1 = Profile.objects.create(user=user1, name=user1.username)
+        profile2 = Profile.objects.create(user=user2, name=user2.username)
+        # profile2 is attempting to follow profile1
+        if user2 not in profile1.following.all():
+            # adds to followers list
+            profile1.following.add(user2)
+            profile2.followers.add(user1)
+            self.assertEqual(user1 in profile2.followers.all(), True)
+            self.assertEqual(user2 in profile1.following.all(), True)
+        else:
+            # removes followers list
+            profile1.following.remove(user2)
+            profile2.followers.remove(user1)
+        profile1.save()
+        profile2.save()
+        self.assertIn(user2, profile1.following.all())
+        self.assertIn(user1, profile2.followers.all())
+        self.assertEqual(profile1.get_following_count(), 1)

@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.deletion import CASCADE, SET_NULL
 from datetime import datetime
 from django.db.models.expressions import Case
+from django.db.models.fields import related
 from django.utils import timezone
 
 
@@ -26,12 +27,6 @@ class User(AbstractUser):
 
 # TODO on registration of a new account a Profile must be auto made and autolinked to the user this will be in the views
 
-class Following(models.Model):
-    target = models.ForeignKey(
-        User, on_delete=CASCADE, related_name="followers")
-    followers = models.ForeignKey(
-        User, on_delete=CASCADE, related_name="target")
-
 
 class Profile(models.Model):
     """
@@ -48,6 +43,20 @@ class Profile(models.Model):
         default="./media/network/img/black_background.jpg")
     user = models.ForeignKey(User, on_delete=CASCADE)
     profile_id = models.AutoField(primary_key=True)
+
+    followers = models.ManyToManyField(
+        User, default=None, blank=True, related_name="target")
+    following = models.ManyToManyField(
+        User, default=None, blank=True, related_name="not_target")
+
+    def get_following_count(self):
+        return len(self.following.all())
+
+    def get_followers_count(self):
+        return len(self.followers.all())
+
+    def get_like_count(self):
+        return len(self.liked.all())
 
     def __str__(self):
         return f"Profile name: {self.name}"
