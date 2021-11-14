@@ -173,10 +173,17 @@ def profile(request, username):
 def following_posts(request):
     # load all the posts here and send it to the template
     all_posts = Posts.objects.all()
+    profile = Profile.objects.get(user=request.user)
+    following = profile.following.all()
     ordered_posts = order_posts(all_posts)
+    following_posts = []
+    for post in ordered_posts:
+        if post.user in following:
+            following_posts.append(post)
+
     return render(request, "network/index.html",
                   {
-                      "posts": ordered_posts
+                      "posts": following_posts
                   })
 
 
