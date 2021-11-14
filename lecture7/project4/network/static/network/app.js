@@ -17,7 +17,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 // TODO figure out how to load the event listeners to the page on reload
 function edit_post(event) {
+
     event.preventDefault();
+
     let post_id = event.target.dataset.post_id;
     let post_user = event.target.dataset.post_creator;
     let before_content = document.querySelector(`.post-container [data-post_id="${post_id}"]:nth-child(3) span`).innerHTML;
@@ -62,11 +64,39 @@ function edit_post(event) {
         })
         // delete form
         .then(document.querySelector('.edit-form').remove())
-        // unhide edit button
+        // show edit button
         .then(document.querySelector('.edit-link').style.display = 'block')
         // add content back to span
         .then(document.querySelector(`.post-container [data-post_id="${post_id}"]:nth-child(3) span`).innerHTML = new_content)
     });
+}
+
+function like_post(event) {
+    event.preventDefault()
+
+    let csrftoken = getCookie('csrftoken')
+    let id = event.target.parentNode.dataset.post_id;
+    fetch('/like_post/' + id, {
+        method:"POST",
+        headers: {'X-CSRFToken': csrftoken}
+    })
+    .then(response => {
+        let target_text = event.target
+        let parent = event.target.parentNode;
+        let likes = parent.dataset.post_likes;
+        if (response.status == 202) {
+            likes ++;
+            event.target.className = 'likes liked'
+        }
+        else {
+            likes --;
+            event.target.className = 'likes unliked'
+        }
+        console.log(likes)
+        parent.dataset.post_likes = likes;
+        target_text.innerHTML = `${likes} Likes`;
+
+    })
 }
 
 function load_post() {

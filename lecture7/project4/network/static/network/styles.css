@@ -97,3 +97,44 @@
 .timestamp {
   padding: 10px 0px;
 }
+
+/* ----------------------- */
+/* -------- Likes -------- */
+/* ----------------------- */
+
+.liked {
+  background-color: red;
+}
+
+.unliked {
+}
+
+#heart {
+  position: relative;
+  width: 25px;
+  height: 22px;
+  margin-top: 3px;
+}
+
+#heart::before,
+#heart::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 13px;
+  height: 20px;
+  border-radius: 12px 12px 0 0;
+  background: red;
+}
+
+#heart::before {
+  left: 12px;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+#heart::after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}

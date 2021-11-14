@@ -26,6 +26,12 @@ class User(AbstractUser):
 
 # TODO on registration of a new account a Profile must be auto made and autolinked to the user this will be in the views
 
+class Following(models.Model):
+    target = models.ForeignKey(
+        User, on_delete=CASCADE, related_name="followers")
+    followers = models.ForeignKey(
+        User, on_delete=CASCADE, related_name="target")
+
 
 class Profile(models.Model):
     """
@@ -40,7 +46,6 @@ class Profile(models.Model):
         default="./media/network/img/default_user_photo.jpg")
     background_photo = models.ImageField(
         default="./media/network/img/black_background.jpg")
-    # following = models.ForeignKey(Following, on_delete=SET_NULL)
     user = models.ForeignKey(User, on_delete=CASCADE)
     profile_id = models.AutoField(primary_key=True)
 
@@ -55,9 +60,21 @@ class Posts(models.Model):
     content = models.CharField(max_length=256)
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
+    liked = models.ManyToManyField(
+        User, default=None, blank=True, related_name="post_likes")
     timestamp = models.DateTimeField(auto_now_add=True)
     # post must reference the profile that is creating it
     user = models.ForeignKey(User, on_delete=CASCADE)
 
     def __str__(self):
-        return f"User: {self.user.username}, Content: {self.content[:50]}"
+        return f"User: {self.user.username}, ID: {self.post_id}, Content: {self.content[:50]}"
+
+
+class LikedPosts(models.Model):
+    # posts the user has liked
+    # the user
+    user = models.ForeignKey(User, on_delete=CASCADE)
+    post = models.ForeignKey(Posts, on_delete=CASCADE)
+
+    def __str__(self):
+        return f"User: {self.user.username}, Post ID: {self.post.post_id}"

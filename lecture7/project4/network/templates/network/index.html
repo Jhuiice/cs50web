@@ -33,8 +33,12 @@
                     <div class="timestamp">
                         <span>{{post.timestamp}}</span>
                     </div>
-                    <div class="likes">
-                        <button class="btn-small btn btn-secondary">
+                    <div id="hearts" data-post_likes={{post.likes}} data-post_id={{post.post_id}} >
+                        {% if user in post.liked.all %}
+                        <button class="likes liked" onclick="like_post(event)">
+                        {% else %}
+                        <button class="likes unliked" onclick="like_post(event)">
+                        {% endif %}
                             {{post.likes}} Likes</button>
                     </div>
                 </div>
