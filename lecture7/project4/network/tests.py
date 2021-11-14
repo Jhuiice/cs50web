@@ -67,3 +67,4 @@ class ModelsTest(TestCase):
         self.assertIn(user2, profile1.following.all())
         self.assertIn(user1, profile2.followers.all())
         self.assertEqual(profile1.get_following_count(), 1)
+        self.assertEqual(profile2.get_followers_count(), 1)

@@ -35,6 +35,7 @@ def order_posts(posts):
     return ordered_posts
 
 
+@login_required
 def index(request):
     # load all the posts here and send it to the template
     all_posts = Posts.objects.all()
@@ -125,12 +126,10 @@ def like_post(request, id):
         return HttpResponse(status=202)
 
 
-@ensure_csrf_cookie
 @login_required
 def follow(request, username):
-
-    if request.method != "POST":
-        return JsonResponse({"error": "POST request required"})
+    if request.method != "GET":
+        return JsonResponse({"error": "GET request required"})
     try:
         user1 = request.user
         # this is who is being followed
@@ -146,13 +145,16 @@ def follow(request, username):
         # adds to followers list
         profile1.following.add(user2)
         profile2.followers.add(user1)
+        profile1.save()
+        profile2.save()
+        return HttpResponse(status=202)
     else:
         # removes followers list
         profile1.following.remove(user2)
         profile2.followers.remove(user1)
-
-    profile1.save()
-    profile2.save()
+        profile1.save()
+        profile2.save()
+        return HttpResponse(status=200)
 
 
 def profile(request, username):
@@ -172,7 +174,6 @@ def profile(request, username):
 
 def login_view(request):
     if request.method == "POST":
-
         # Attempt to sign user in
         username = request.POST["username"]
         password = request.POST["password"]

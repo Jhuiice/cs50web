@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 // TODO figure out how to load the event listeners to the page on reload
 function edit_post(event) {
-
     event.preventDefault();
 
     let post_id = event.target.dataset.post_id;
@@ -95,6 +94,40 @@ function like_post(event) {
         console.log(likes)
         parent.dataset.post_likes = likes;
         target_text.innerHTML = `${likes} Likes`;
+
+    })
+}
+
+function follow(event) {
+    // target following and followers count in profile to update
+    // update follow button to look different
+    let username = event.target.parentNode.dataset.profile_user;
+    let target = event.target;
+    let parent = event.target.parentNode;
+    console.log(parent)
+    let followers = parent.dataset.follower_count;
+    let followerHTML = document.querySelector('.followers span a')
+    console.log(username, followers)
+
+    fetch('follow/' + username, {
+        method:"GET",
+    })
+    .then(response => {
+        console.log(response)
+        if (response.status == 202) {
+            followers++;
+            target.innerHTML= 'Unfollow';
+            target.className = 'unfollow btn btn-primary';
+        }
+        else {
+            followers--;
+            target.innerHTML= 'Follow';
+            target.className = 'follow btn btn-primary';
+        }
+        parent.dataset.follower_count = followers;
+        console.log(parent.dataset.follower_count)
+        followerHTML.innerHTML = `${followers} Followers`;
+
 
     })
 }

@@ -52,7 +52,7 @@ class Profile(models.Model):
     def get_following_count(self):
         return len(self.following.all())
 
-    def get_followers_count(self):
+    def get_follower_count(self):
         return len(self.followers.all())
 
     def get_like_count(self):

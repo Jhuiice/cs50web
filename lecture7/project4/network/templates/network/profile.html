@@ -9,12 +9,12 @@
             <figure><image class="background-photo" src={{profile.background_photo}}></image></figure>
         </div>
         {% if user.username != profile.name %}
-        <div class="follow-button-container">
-            <button class="btn btn-primary">Follow</button>
-        </div>
-        {% else %}
-        <div class="follow-button-container" style="display:none;">
-            <button class="btn btn-primary">Follow</button>
+        <div class="follow-button-container" data-profile_user={{profile.user.username}} data-follower_count={{profile.get_follower_count}}>
+            {% if user not in profile.followers.all %}
+                <button class="unfollow btn btn-primary" onclick="follow(event)">Follow</button>
+            {% else %}
+            <button class="follow btn btn-primary" onclick="follow(event)">Unfollow</button>
+            {% endif %}
         </div>
         {% endif %}
         <div class="profile-photo-container sml-container">
@@ -25,16 +25,15 @@
         <div class="profile-content-container">
             <div class="profile-content">
                 <span>{{profile.name}}</span>
-                <span>@{{user.username}}</span>
+                <span>@{{profile.name}}</span>
                 <span class="bio"> {{profile.bio}}</span>
             </div>
             <div class="follow-content">
                 <div class="following">
-                    <!-- TODO Add following and followers count -->
-                    <span class="follow-span"><a class="follow-button" href="#">Following</a></span>
+                    <span class="follow-span"><a class="follow-button" href="#">{{profile.get_following_count}} Following</a></span>
                 </div>
-                <div class="followers">
-                    <span class="follow-span"><a class="follow-button" href="#">Followers</a></span>
+                <div class="followers" data-follower_count={{profile.get_follower_count}}>
+                    <span class="follow-span"><a class="follow-button" href="#">{{profile.get_follower_count}} Followers</a></span>
                 </div>
             </div>
         </div>
