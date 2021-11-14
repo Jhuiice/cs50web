@@ -40,8 +40,6 @@ def index(request):
     # load all the posts here and send it to the template
     all_posts = Posts.objects.all()
     ordered_posts = order_posts(all_posts)
-    # TODO create an ordering algorithm to order posts newests to oldests
-
     return render(request, "network/index.html",
                   {
                       "posts": ordered_posts
@@ -170,6 +168,16 @@ def profile(request, username):
         "profile": profile,
         "posts": ordered_posts,
     })
+
+
+def following_posts(request):
+    # load all the posts here and send it to the template
+    all_posts = Posts.objects.all()
+    ordered_posts = order_posts(all_posts)
+    return render(request, "network/index.html",
+                  {
+                      "posts": ordered_posts
+                  })
 
 
 def login_view(request):

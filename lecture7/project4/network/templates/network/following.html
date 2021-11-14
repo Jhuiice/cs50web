@@ -1,0 +1,39 @@
+{% extends 'network/layount.html' %}
+
+{% block body %}
+<h1>Followers</h1>
+<div id="posts-container">
+    {% if posts %}
+        {% for post in posts %}
+            <div class="post-container">
+                <div class="username-container">
+                    <span class="post-username">
+                        <a href="{% url 'profile' post.user.username %}">{{post.user.username}}</a>
+                    </span>
+                </div>
+                {% if post.user == user %}
+                <div class="edit-content" >
+                    <a href="#" class="edit-link" data-post_id={{post.post_id}} data-post_creator={{post.user.username}} onclick="edit_post(event)">Edit</a>
+                </div>
+                {% endif %}
+                <div class="post-content" data-post_id={{post.post_id}}>
+                    <span>{{post.content}}</span>
+                </div>
+                <div class="timestamp">
+                    <span>{{post.timestamp}}</span>
+                </div>
+                <div id="hearts" data-post_likes={{post.likes}} data-post_id={{post.post_id}} >
+                    {% if user in post.liked.all %}
+                    <button class="likes liked" onclick="like_post(event)">
+                    {% else %}
+                    <button class="likes unliked" onclick="like_post(event)">
+                    {% endif %}
+                        {{post.likes}} Likes</button>
+                </div>
+            </div>
+        {% endfor %}
+</div>
+    {% else %}
+        <span class="empty">There are no posts yet</span>
+    {% endif %}
+{% end block %}
