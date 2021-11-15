@@ -1,11 +1,13 @@
 from typing import OrderedDict
 from django.contrib.auth import authenticate, login, logout
+from django.core import paginator
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
+from django.core.paginator import Paginator
 
 import json
 import datetime
@@ -40,9 +42,12 @@ def index(request):
     # load all the posts here and send it to the template
     all_posts = Posts.objects.all()
     ordered_posts = order_posts(all_posts)
+    paginator = Paginator(ordered_posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request, "network/index.html",
                   {
-                      "posts": ordered_posts
+                      "posts": page_obj
                   })
 
 
@@ -161,12 +166,16 @@ def profile(request, username):
     # new accounts will have no posts
     try:
         posts = Posts.objects.filter(user=user)
-        ordered_posts = order_posts(posts)
     except:
         posts = None
+
+    ordered_posts = order_posts(posts)
+    paginator = Paginator(ordered_posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request, "network/profile.html", {
         "profile": profile,
-        "posts": ordered_posts,
+        "posts": page_obj,
     })
 
 
@@ -180,10 +189,13 @@ def following_posts(request):
     for post in ordered_posts:
         if post.user in following:
             following_posts.append(post)
+    paginator = Paginator(following_posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     return render(request, "network/index.html",
                   {
-                      "posts": following_posts
+                      "posts": page_obj
                   })
 
 
