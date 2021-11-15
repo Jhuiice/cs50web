@@ -7,10 +7,14 @@
         <h2>{{profile.name}}</h2>
         {% if user.username != profile.name %}
         <div class="follow-button-container" data-profile_user={{profile.user.username}} data-follower_count={{profile.get_follower_count}}>
+            {% if user.is_authenticated %}
             {% if user not in profile.followers.all %}
                 <button class="unfollow btn btn-primary" onclick="follow(event)">Follow</button>
             {% else %}
             <button class="follow btn btn-primary" onclick="follow(event)">Unfollow</button>
+            {% endif %}
+            {% else %}
+            <button class="unfollow btn btn-primary" disabled>Follow</button>
             {% endif %}
         </div>
         {% endif %}
@@ -48,12 +52,16 @@
                         <span>{{post.timestamp}}</span>
                     </div>
                     <div id="hearts" data-post_likes={{post.likes}} data-post_id={{post.post_id}} >
-                        {% if user in post.liked.all %}
-                        <button class="btn btn-primary btn-small likes liked" onclick="like_post(event)">
+                        {% if user.is_authenticated %}
+                            {% if user in post.liked.all %}
+                            <button class="btn btn-primary btn-small likes liked" onclick="like_post(event)">
+                            {% else %}
+                            <button class="btn btn-primary btn-small likes unliked" onclick="like_post(event)">
+                            {% endif %}
+                                {{post.likes}} Likes</button>
                         {% else %}
-                        <button class="btn btn-primary btn-small likes unliked" onclick="like_post(event)">
+                            <button class="btn btn-primary btn-small likes liked" disabled>{{post.likes}} Likes</button>
                         {% endif %}
-                            {{post.likes}} Likes</button>
                     </div>
                 </div>
             {% endfor %}

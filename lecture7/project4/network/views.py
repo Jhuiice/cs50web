@@ -37,7 +37,6 @@ def order_posts(posts):
     return ordered_posts
 
 
-@login_required
 def index(request):
     # load all the posts here and send it to the template
     all_posts = Posts.objects.all()

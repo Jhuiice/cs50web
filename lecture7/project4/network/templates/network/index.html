@@ -6,10 +6,11 @@
             {% csrf_token %}
             <div class="form-group blue-border-focus">
                 <h2><label for="exampleFormControlTextarea4">New Post</label></h2>
-                <textarea maxlength="256" id="exampleFormControlTextarea4" class="form-control form-post-content" rows="3" name="content" placeholder="What's happening?">
-                </textarea>
+                <textarea maxlength="256" id="exampleFormControlTextarea4" class="form-control form-post-content" name="content" placeholder="What's happening?"></textarea>
             </div>
+            {% if user.is_authenticated %}
             <input class="btn btn-primary" value="Post" type="submit" id="post-submit">
+            {% endif %}
         </form>
     </div>
 
@@ -34,12 +35,16 @@
                         <span>{{post.timestamp}}</span>
                     </div>
                     <div id="hearts" data-post_likes={{post.likes}} data-post_id={{post.post_id}} >
-                        {% if user in post.liked.all %}
-                        <button class="btn btn-primary btn-small likes liked" onclick="like_post(event)">
+                        {% if user.is_authenticated %}
+                            {% if user in post.liked.all %}
+                            <button class="btn btn-primary btn-small likes liked" onclick="like_post(event)">
+                            {% else %}
+                            <button class="btn btn-primary btn-small likes unliked" onclick="like_post(event)">
+                            {% endif %}
+                                {{post.likes}} Likes</button>
                         {% else %}
-                        <button class="btn btn-primary btn-small likes unliked" onclick="like_post(event)">
+                            <button class="btn btn-primary btn-small likes liked" disabled>{{post.likes}} Likes</button>
                         {% endif %}
-                            {{post.likes}} Likes</button>
                     </div>
                 </div>
             {% endfor %}

@@ -1,26 +1,8 @@
-//? How do i get the js to reload on every page?
-document.addEventListener("DOMContentLoaded", (event) => {
-    document.querySelector('#profile-view').style.display = "none";
-    document.querySelector('#post-view').style.display = "block";
-    document.querySelector('#following-view').style.display = "none";
-    document.querySelector('#post-form-container').style.display = "none";
-    document.querySelector('.form-post-content').value = "";
-    document.querySelectorAll('.edit-link').forEach(edit => {
-        edit.addEventListener('click', edit_post)
-    })
 
-    // document.querySelector('#post-submit').addEventListener('click', submit_post)
-    // document.querySelector('.profile-link').addEventListener('click',
-    // load_profile)
-})
-
-
-// TODO figure out how to load the event listeners to the page on reload
 function edit_post(event) {
     event.preventDefault();
 
     let post_id = event.target.dataset.post_id;
-    let post_user = event.target.dataset.post_creator;
     let before_content = document.querySelector(`.post-container [data-post_id="${post_id}"]:nth-child(3) span`).innerHTML;
 
     let edit_form = document.createElement("form");
@@ -32,7 +14,7 @@ function edit_post(event) {
     textarea.id = 'exampleFormControlTextarea4';
     textarea.setAttribute('rows', '3');
     textarea.setAttribute('name', 'content');
-    textarea.innerHTML = before_content;
+    textarea.innerHTML = before_content.trim();
 
     let submit = document.createElement('input');
     submit.setAttribute('type', 'submit');
@@ -91,7 +73,6 @@ function like_post(event) {
             likes --;
             event.target.className = 'btn btn-primary btn-small likes unliked';
         }
-        console.log(likes)
         parent.dataset.post_likes = likes;
         target_text.innerHTML = `${likes} Likes`;
 
@@ -132,17 +113,6 @@ function follow(event) {
     })
 }
 
-function load_post() {
-    let post = document.querySelector('#post-form-container')
-    post.value = "";
-    post.style.display = "block";
-}
-function hide_post() {
-    let post = document.querySelector('#post-form-container')
-    post.value = "";
-    post.style.display = "none";
-}
-
 function submit_post(event) {
 
     event.preventDefault()
@@ -158,9 +128,6 @@ function submit_post(event) {
         })
     })
     .then(document.querySelector('.post-content').value = "")
-    // .then(load_network())
-    // call a function to hide the post and refresh the posts without reloading the page
-    // .then()
 }
 
 // Got this code from the Django documents
