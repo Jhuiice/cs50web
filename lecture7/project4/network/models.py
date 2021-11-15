@@ -10,23 +10,6 @@ from django.utils import timezone
 class User(AbstractUser):
     pass
 
-    # def __str__(self):
-    #     return f"User: {AbstractUser.username}"
-
-# TODO: Finish implementing following and followers into the database
-
-
-# class Followers(models.Model):
-#     user = models.ForeignKey(User, on_delete=CASCADE)
-    # follower = models.
-
-
-# class Following(models.Model):
-#     following = models.BooleanField(default=False)
-#     followers = models.BooleanField(default=False)
-
-# TODO on registration of a new account a Profile must be auto made and autolinked to the user this will be in the views
-
 
 class Profile(models.Model):
     """

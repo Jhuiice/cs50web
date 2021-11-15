@@ -4,10 +4,7 @@
 
 <div class="profile-container">
     <div class="profile-header-container">
-        <!-- Get image to top left -->
-        <div class="background-photo-container mdm-container">
-            <figure><image class="background-photo" src={{profile.background_photo}}></image></figure>
-        </div>
+        <h2>{{profile.name}}</h2>
         {% if user.username != profile.name %}
         <div class="follow-button-container" data-profile_user={{profile.user.username}} data-follower_count={{profile.get_follower_count}}>
             {% if user not in profile.followers.all %}
@@ -17,24 +14,14 @@
             {% endif %}
         </div>
         {% endif %}
-        <div class="profile-photo-container sml-container">
-            <figure><image class="profile-photo" src={{profile.photo}}></image></figure>
-        </div>
-    </>
+    </div>
     <div class="profile-info sml-container">
-        <div class="profile-content-container">
-            <div class="profile-content">
-                <span>{{profile.name}}</span>
-                <span>@{{profile.name}}</span>
-                <span class="bio"> {{profile.bio}}</span>
+        <div class="follow-content">
+            <div class="following">
+                <span class="follow-span"><a class="follow-button" href="#">{{profile.get_following_count}} Following</a></span>
             </div>
-            <div class="follow-content">
-                <div class="following">
-                    <span class="follow-span"><a class="follow-button" href="#">{{profile.get_following_count}} Following</a></span>
-                </div>
-                <div class="followers" data-follower_count={{profile.get_follower_count}}>
-                    <span class="follow-span"><a class="follow-button" href="#">{{profile.get_follower_count}} Followers</a></span>
-                </div>
+            <div class="followers" data-follower_count={{profile.get_follower_count}}>
+                <span class="follow-span"><a class="follow-button" href="#">{{profile.get_follower_count}} Followers</a></span>
             </div>
         </div>
     </div>
@@ -60,35 +47,38 @@
                     <div class="timestamp">
                         <span>{{post.timestamp}}</span>
                     </div>
-                    <div class="likes">
-                        <button class="btn-small btn btn-secondary">
+                    <div id="hearts" data-post_likes={{post.likes}} data-post_id={{post.post_id}} >
+                        {% if user in post.liked.all %}
+                        <button class="btn btn-primary btn-small likes liked" onclick="like_post(event)">
+                        {% else %}
+                        <button class="btn btn-primary btn-small likes unliked" onclick="like_post(event)">
+                        {% endif %}
                             {{post.likes}} Likes</button>
                     </div>
                 </div>
             {% endfor %}
     </div>
-        {% else %}
-            <span class="empty">There are no posts yet</span>
-        {% endif %}
+    {% else %}
+        <span class="empty">There are no posts yet</span>
+    {% endif %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if posts.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ posts.previous_page_number }}">previous</a>
+            {% endif %}
 
+            <span class="current">
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+            </span>
+
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">next</a>
+                <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
     </div>
 </div>
 
-<div class="pagination">
-    <span class="step-links">
-        {% if posts.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ posts.previous_page_number }}">previous</a>
-        {% endif %}
 
-        <span class="current">
-            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
-        </span>
-
-        {% if posts.has_next %}
-            <a href="?page={{ posts.next_page_number }}">next</a>
-            <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
 {% endblock %}

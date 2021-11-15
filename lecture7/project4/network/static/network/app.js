@@ -85,11 +85,11 @@ function like_post(event) {
         let likes = parent.dataset.post_likes;
         if (response.status == 202) {
             likes ++;
-            event.target.className = 'likes liked'
+            event.target.className = 'btn btn-primary btn-small likes liked';
         }
         else {
             likes --;
-            event.target.className = 'likes unliked'
+            event.target.className = 'btn btn-primary btn-small likes unliked';
         }
         console.log(likes)
         parent.dataset.post_likes = likes;

@@ -1,6 +1,6 @@
 .body {
   width: 80%;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 
 #post-form-container {
@@ -21,6 +21,15 @@
 /* --------------------------------- */
 /* --------- PROFILE VIEW ---------- */
 /* --------------------------------- */
+
+.profile-header-container {
+  margin: 6px;
+  padding: 10px 20px;
+}
+
+.profile-header-container h2 {
+  padding: 0px 0px 10px 5px;
+}
 
 #profile-container {
   padding: 0 80px;
@@ -57,7 +66,7 @@
 
 .follow-content {
   display: flex;
-  padding-top: 15px;
+  padding: 15px 0px;
 }
 
 .follow-span {
@@ -101,13 +110,6 @@
 /* ----------------------- */
 /* -------- Likes -------- */
 /* ----------------------- */
-
-.liked {
-  background-color: red;
-}
-
-.unliked {
-}
 
 #heart {
   position: relative;
